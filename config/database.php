@@ -1,16 +1,19 @@
 <?php
 // Configuration for Database Connection
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "aplikasi_parkir";
+// Configuration for Database Connection from Environment Variables
+$host = getenv('DB_HOST') ?: "localhost";
+$user = getenv('DB_USER') ?: "root";
+$pass = getenv('DB_PASS') ?: "";
+$db = getenv('DB_NAME') ?: "aplikasi_parkir";
+$port = getenv('DB_PORT') ?: "3306";
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 mysqli_set_charset($conn, "utf8");
 
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    error_log("Connection failed: " . mysqli_connect_error());
+    die("Database connection error. Please check your configuration.");
 }
 
 // Function to safely execute queries
